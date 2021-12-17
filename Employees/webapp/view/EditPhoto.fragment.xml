@@ -1,0 +1,32 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form">
+
+    <!-- Dialogo que se abre al pulsar Editar Photo en la pantalla de edición -->
+	<Dialog>
+		<content>
+			<VBox class="sapUiSmallMargin" width="500px">
+
+                <!-- Input para introducir la URL de la nueva foto de perfil -->
+				<Label text="{i18n>EditPhotoLabel}" />
+				<Input 
+                        type="Text" 
+                        name="photoEdit" 
+                        id="photoEdit"/>
+
+                <!-- Botones con acciones guardar y cancelar-->
+				<FlexBox
+				height="50px"
+				alignItems="End"
+				justifyContent="End">
+					<Button text="{i18n>SaveButton}" press="onSubmitButton" class="sapUiSmallMarginEnd" icon="sap-icon://save"/>
+					<Button text="{i18n>CancelButton}" press="onCloseDialog" class="sapUiSmallMarginEnd" />
+				</FlexBox>
+                
+			</VBox>
+		</content>
+	</Dialog>
+</core:FragmentDefinition>

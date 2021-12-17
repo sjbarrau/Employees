@@ -1,0 +1,147 @@
+<mvc:View
+    controllerName="com.accenture.demo.empleadosui.controller.Main"
+	xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+	xmlns="sap.m"
+	xmlns:table="sap.ui.table"
+	xmlns:l="sap.ui.layout"
+	xmlns:core="sap.ui.core"
+	xmlns:fb="sap.ui.comp.filterbar"
+>
+   
+    <!-- Header con los inputs -->
+            <HBox justifyContent="Center" >
+                <VBox class="sapUiMediumMargin" justifyContent="Center">
+                    <Text text="Location" textAlign="Center" width="250px" class="sapUiSmallMarginBottom"/>
+                                <Select
+									id="slLocation"
+									forceSelection="false"
+									change="onSelectFilter"
+                                    width="250px"
+									items="{
+                                            path: 'oEmpleados>/Locations'
+                                            }">
+						            <core:Item key="{oEmpleados>ID}" text="{oEmpleados>city}"/>
+					            </Select>
+                </VBox>
+                <VBox class="sapUiMediumMargin" justifyContent="Center">
+                    <Text text="Category" textAlign="Center" width="240px" class="sapUiSmallMarginBottom"/>
+                    <Select
+									id="slCategory"
+                                    width="250px"
+									forceSelection="false"
+									change="onSelectFilter"
+									items="{
+                                            path: 'oEmpleados>/Categories'
+                                            }">
+						<core:Item key="{oEmpleados>ID}" text="{oEmpleados>name}"/>
+					</Select>
+                </VBox>
+            </HBox>
+
+
+    <!-- Aqui empieza la estructura que contiene la Tabla -->
+	<l:BlockLayout>
+		<l:BlockLayoutRow>
+			<l:BlockLayoutCell>
+
+                <!-- Tabla que funciona como Header de nuestra tabla principal. Contiene los botones de Crear Empleadps y Refrescar -->
+				<Table
+                    showNoData='false'
+                    >
+					<headerToolbar>
+						<OverflowToolbar>
+							<Title text="{i18n>TableTitle}"/>
+							<ToolbarSpacer/>
+
+							<!-- Botón Añadir nuevo empleado -->
+							<Button icon="sap-icon://add-employee" text="{i18n>NewEmployeeButton}" press="onTableNewEmployee" class="sapUiTinyMarginBottom">
+								<layoutData>
+									<OverflowToolbarLayoutData priority="NeverOverflow" />
+								</layoutData>
+							</Button>
+
+							<!-- Botón Refresh -->
+							<Button icon="sap-icon://synchronize" text="{i18n>Refresh}" press="onTableRefresh" class="sapUiTinyMarginBottom">
+								<layoutData>
+									<OverflowToolbarLayoutData priority="NeverOverflow" />
+								</layoutData>
+							</Button>
+						</OverflowToolbar>
+					</headerToolbar>
+                
+                
+				</Table>
+
+                <!-- Tabla principal donde se muestran los datos. ScrollContainer nos permite scrollear en la tabla  -->
+				<ScrollContainer height='40rem' vertical='true'>
+					<Table
+                    sticky="HeaderToolbar,InfoToolbar,ColumnHeaders" 
+                    id="tabla01"
+                    items="{path: 'oEmpleados>/Employees', parameters:{expand : 'location,category'}}"
+                    inset="false"
+                    fixedLayout="false"
+                    >
+                         <!-- En las columnas definimos los nombres de los campos que vamos a mostrar -->
+						<columns>
+							<Column hAlign="Center" 
+                        minScreenWidth="Tablet"
+				        demandPopin="true">
+								<header>
+									<Text text="{i18n>Name}" ></Text>
+								</header>
+							</Column>
+							<Column hAlign="Center"
+                        minScreenWidth="Tablet"
+				        demandPopin="true">
+								<header>
+									<Text text="{i18n>Location}"></Text>
+								</header>
+							</Column>
+							<Column hAlign="Center"
+                        minScreenWidth="Tablet"
+				        demandPopin="true">
+								<header>
+									<Text text="{i18n>Category}"></Text>
+								</header>
+							</Column>
+							<Column hAlign="Center"
+                        minScreenWidth="Tablet"
+				        demandPopin="true">
+								<header>
+									<Text text="{i18n>Modify}"></Text>
+								</header>
+							</Column>
+							<Column hAlign="Center"
+                        minScreenWidth="Tablet"
+				        demandPopin="true">
+								<header>
+									<Text text="{i18n>Delete}"></Text>
+								</header>
+							</Column>
+						</columns>
+
+                         <!-- En items definimos la información que traemos de nuestro OData, estos son los datos que vamos a mostrar en la tabla -->
+						<items >
+							<ColumnListItem vAlign="Middle" press="onPressNavigation" type="Navigation">
+								<cells >
+									<Text
+						            text="{oEmpleados>employee_name}" />
+									<Text
+						            text="{oEmpleados>location/city}" />
+									<Text
+						            text="{oEmpleados>category/name}" />
+									<core:Icon src="sap-icon://user-edit" press="onPressNavigationEdit"/>
+									<core:Icon src="sap-icon://delete" press="onApproveDialogPress" class="colorChange"/>
+								</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
+				</ScrollContainer>
+                
+			</l:BlockLayoutCell>
+		</l:BlockLayoutRow>
+	</l:BlockLayout>
+
+    
+</mvc:View>

@@ -1,0 +1,149 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form">
+
+    <!-- Dialogo de creación de nuevos perfiles -->
+	<Dialog title="{i18n>NewEmployeeTitle}" id="newEmployee">
+		<content>
+			<VBox class="sapUiSmallMargin" width="500px">
+
+                <!-- Formulario con Inputs -->
+				<f:SimpleForm>
+					<f:content>
+						<Label text="{i18n>Name}" required="true"/>
+						<Input 
+                         
+                        name="name" 
+                        id="nameInput"
+                        change="onValidateInput"
+                        value="{ 
+                                  path : '/text', 
+                                  type : 'sap.ui.model.type.String', 
+                                  constraints : { 
+                                      minLength : 3, 
+                                      maxLength : 50 
+                                  }
+                              }"
+                        
+                        />
+                        
+
+                        <!-- En el input de ID restringimos el número de digitos que pueden introducirse y especificamos el número por el que empiezan -->
+						<Label text="{i18n>ID}" required="true"/>
+						<MaskInput id="idInput" 
+                                    mask="1CCCCCCC"
+                                    change="onValidateInput" 
+                                    placeholderSymbol="-" 
+                                    placeholder="{i18n>IdPlaceholder}"
+                                    value="{ 
+                                        path : '/number', 
+                                        type : 'sap.ui.model.type.Integer', 
+                                        constraints : { 
+                                            maxLength : 8 
+                                        }
+                                    }"
+                                   >
+							<rules>
+								<MaskInputRule maskFormatSymbol="C" regex="[0-9]" />
+							</rules>
+						</MaskInput>
+
+                        <!-- Selectores con las localizaciones extraidas del OData -->
+						<Label text="{i18n>Location}" required="true"/>
+						<Select
+						id="locationInput"
+						forceSelection="false"
+                        change="onValidateInput"
+                        selectedKey="{ 
+                            path : '/mySelectedKey', 
+                            type : 'sap.ui.model.type.Integer', 
+                            constraints : { 
+                                minimum : 1 
+                            }
+                        }"
+						items="{
+                                path: 'oEmpleados>/Locations'
+                                 }">
+							<core:Item key="{oEmpleados>ID}" text="{oEmpleados>city}"/>
+						</Select>
+
+                        <!-- Selectores con las categorias extraidas del OData -->
+						<Label text="{i18n>Category}" required="true"/>
+						<Select
+						id="categoryInput"
+						forceSelection="false"
+                        change="onValidateInput"
+                        selectedKey="{ 
+                            path : '/mySelectedKey', 
+                            type : 'sap.ui.model.type.Integer', 
+                            constraints : { 
+                                minimum : 1 
+                            }
+                        }"
+						items="{
+                                path: 'oEmpleados>/Categories'
+                                }">
+							<core:Item key="{oEmpleados>ID}" text="{oEmpleados>name}"/>
+						</Select>
+
+						<Label text="{i18n>Photo}" required="true"/>
+						<Input 
+                        type="Text" 
+                        name="photo" 
+                        id="photoInput"
+                        change="onValidateInput"
+                        placeholder="Insert a valid URL"
+                        value="{ 
+                                  path : '/text', 
+                                  type : 'sap.ui.model.type.String', 
+                                  constraints : { 
+                                      minLength : 3, 
+                                      maxLength : 500 
+                                  }
+                              }"/>
+
+						<Label text="{i18n>Age}" required="true"/>
+						<Input 
+                        name="age" 
+                        id="ageInput"
+                        change="onValidateInput"
+                        value="{ 
+                                  path : '/number', 
+                                  type : 'sap.ui.model.type.Integer', 
+                                  constraints : { 
+                                      minimum : 18, 
+                                      maximum : 99 
+                                  }
+                              }"/>
+
+						<Label text="{i18n>Salary}" required="true"/>
+						<Input 
+                        name="salary" 
+                        id="salaryInput"
+                        change="onValidateInput"
+                        value="{ 
+                                  path : '/number', 
+                                  type : 'sap.ui.model.type.Integer',
+                                  constraints : { 
+                                      minimum : 50, 
+                                      maximum : 10000000 
+                                  }
+                              }"/>
+					</f:content>
+				</f:SimpleForm>
+                
+                <!-- Botones con acciones guardar y cancelar -->
+				<FlexBox
+				height="100px"
+				alignItems="End"
+				justifyContent="End">
+					<Button text="{i18n>SaveButton}" press="onSubmitButton" class="sapUiSmallMarginEnd" icon="sap-icon://save"/>
+					<Button text="{i18n>CancelButton}" press="onCloseDialog" class="sapUiSmallMarginEnd" />
+				</FlexBox>
+			</VBox>
+		</content>
+	</Dialog>
+</core:FragmentDefinition>
